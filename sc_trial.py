@@ -1,10 +1,15 @@
 import requests
+from bs4 import BeautifulSoup
 
-URL = 'https://node-red-railway-production-4f90.up.railway.app/api/v1'
+URL = 'https://www.aeon.info/news/'
 
-data = {"name": "watanabe",
-        "age": 33,
-        "message": "hello node red"}
+res = requests.get(URL)
+soup = BeautifulSoup(res.text, 'html.parser')
 
-res = requests.post(URL, data=data)
-print(res.text)
+div:BeautifulSoup = soup.select_one('#wrap-container > main > div.news-list_container.section > div.news-list_cover.section')
+a_list:BeautifulSoup = div.find_all('a')
+span_list:BeautifulSoup = div.find_all('span')
+
+for a, span in zip(a_list, span_list):
+        print(a.get_text())
+        print(span.get_text())

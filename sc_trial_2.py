@@ -7,6 +7,6 @@ statsDataID = "0003348238"
 api_Url = f'http://api.e-stat.go.jp/rest/3.0/app/json/getStatsData?appId={appId}&statsDataId={statsDataID}'
 
 print(api_Url)
-# res = requests.get(api_Url)
+res = requests.get(api_Url)
 
-# print(res.text)
+print(res.text)

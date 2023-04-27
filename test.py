@@ -49,4 +49,30 @@ for i, match in enumerate(matches):
         if lang != 'javascript' and 'js':
             print('正しいかを確認しましょう。')
         if lang == 'java':
-            print('特にJavaとJavaScriptは、ハムとハムスター位違いますよ。注意しましょう。')   
+            print('特にJavaとJavaScriptは、ハムとハムスター位違いますよ。注意しましょう。') 
+            
+# コードブロックのパターンを定義する
+pattern_code_block = r"```[\w\s]*\n([\s\S]*?)\n```"
+
+# コードブロックを除去する
+text_without_code_blocks = re.sub(pattern_code_block, "", encoded_content, flags=re.DOTALL)
+
+# 各段落の # の数をリストに格納する
+pattern_heading = r"^(#+)(?!#)(.*)$"
+headings = []
+for line in text_without_code_blocks.split("\n"):
+    match = re.match(pattern_heading, line)
+    if match:
+    # コードブロック中の # を除外するため、# の前後にスペースを付与する
+        heading = match.group(1).strip()
+        headings.append(len(heading))
+
+if any(x == 1 for x in headings) :
+    print('段落のマークダウンは ## からはじめるようにしましょう\n # 1つはページ全体を表すため記事には利用しません')
+
+count = 0
+for i in range(len(headings) - 1):
+    if headings[i + 1] - headings[0] > 1:
+        count += 1
+if count > 0:
+    print(f'段落構成が崩れている箇所が{count}箇所あります\n # は1つずつ増やしましょう')
